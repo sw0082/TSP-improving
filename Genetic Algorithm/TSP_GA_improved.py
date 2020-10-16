@@ -30,7 +30,7 @@ import time
 # Genetic Algorithm
 POOL_SIZE = 100
 RANDOM_RATIO = 0.1
-ITERATIONS = 3000
+ITERATIONS = 10000
 K = 10
 np.random.seed(0)
 
@@ -127,7 +127,7 @@ def initialize_greedy(coord_list, first_idx):
         cities_tovisit[nearest_city] = False
         path[i] = nearest_city
 
-    for i in range(len(path) - 2):
+    """for i in range(len(path) - 2):
         for j in range(len(path) - 1):
             if is_cross_pt(int(coord_list[path[i], 0]), int(coord_list[path[i], 1]),
                            int(coord_list[path[i + 1], 0]),
@@ -138,7 +138,7 @@ def initialize_greedy(coord_list, first_idx):
                     continue
                 # path[i + 1: j + 1] = path[i + 1: j + 1].reverse()
                 path[i + 1: j + 1] = np.flip(path[i + 1: j + 1])
-                i = 1
+                i = 1"""
     return path_map, path
 
 def is_divide_pt(x11, y11, x12, y12, x21, y21, x22, y22):
@@ -222,17 +222,17 @@ def initialization(coord_list):
 
 def selection(pool_cost, k):
     # tournament selection
-    #selected_indices = np.random.permutation(POOL_SIZE)
-    #selected_indices = selected_indices[:k]
+    selected_indices = np.random.permutation(POOL_SIZE)
+    selected_indices = selected_indices[:k]
 
-    #selected_cost = pool_cost[selected_indices]
-    #sorted_indices = np.argsort(selected_cost)
+    selected_cost = pool_cost[selected_indices]
+    sorted_indices = np.argsort(selected_cost)
 
-    #indices = selected_indices[sorted_indices[:2]]
+    indices = selected_indices[sorted_indices[:2]]
 
 
     #prob = np.zeros
-    prob = (1/pool_cost) / (1/pool_cost).sum()
+    """prob = (1/pool_cost) / (1/pool_cost).sum()
     selected_indices = np.zeros(K, dtype=int)
 
     sumOfrand = 0.0
@@ -250,7 +250,7 @@ def selection(pool_cost, k):
     selected_cost = pool_cost[selected_indices]
     sorted_indices = np.argsort(selected_cost)
 
-    indices = selected_indices[sorted_indices[:2]]
+    indices = selected_indices[sorted_indices[:2]]"""
 
     return indices
 
@@ -274,7 +274,7 @@ def crossover(path1, path2):
         plist1[child1[i]] = i
         plist2[child2[i]] = i
 
-    sel_idx = np.random.randint(1, path_size, size=2)
+    sel_idx = np.random.randint(path_size*0.17, path_size, size=2)
     if sel_idx[0] > sel_idx[1]:
         sel_idx[0], sel_idx[1] = sel_idx[1], sel_idx[0]
 
